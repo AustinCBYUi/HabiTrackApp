@@ -1,0 +1,44 @@
+<h2>Add a New Habit</h2>
+
+<div *ngIf="successMessage" class="alert alert-success text-center">
+  {{ successMessage }}
+</div>
+<div *ngIf="errorMessage" class="alert alert-danger text-center">
+  {{ errorMessage }}
+</div>
+
+<form (ngSubmit)="addHabit()" class="row g-3">
+<!--  <div class="card p-5 shadow-lg border-0 rounded-3">-->
+
+    <!-- Title Field -->
+    <div class="col-auto">
+      <label for="title" class="visually-hidden">Title</label>
+      <input type="text" id="title" [(ngModel)]="habit.title" class="form-control" placeholder="Habit Title" name="title" required />
+    </div>
+
+    <!-- Description Field -->
+    <div class="col-auto">
+      <label for="description" class="visually-hidden">Description</label>
+      <input id="description" [(ngModel)]="habit.description" class="form-control" placeholder="Habit Description" name="description" required />
+    </div>
+
+    <!-- Frequency Field -->
+    <div class="col-auto">
+      <label for="frequency" class="visually-hidden">Frequency</label>
+      <select id="frequency" [(ngModel)]="habit.frequency" name="frequency" class="form-select" required>
+        <option selected>Select a Frequency</option>
+        <option value="Daily">Daily</option>
+        <option value="MF">Monday-Friday</option>
+        <option value="Weekends">Weekends</option>
+        <option value="Weekly">Weekly</option>
+        <option value="BiWeekly">Bi-Weekly</option>
+        <option value="Monthly">Monthly</option>
+      </select>
+    </div>
+
+    <!-- Submit Button -->
+  <div class="col-auto">
+    <button type="submit" class="btn btn-primary">Add Habit</button>
+  </div>
+
+</form>
