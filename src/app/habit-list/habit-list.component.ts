@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { HabitService } from '../habit.service';
 import {Habit} from '../../../backend/models/habit.model';
 import {NgForOf, NgIf} from '@angular/common';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-habit-list',
   imports: [
     NgForOf,
-    NgIf
+    NgIf,
+    RouterLink
   ],
   standalone: true,
   templateUrl: './habit-list.component.html',
@@ -32,20 +34,17 @@ export class HabitListComponent implements OnInit {
 
   markComplete(habit: any) {
     this.habitService.completeHabit(habit).subscribe(() => {
+      this.habits = this.habits.filter(h => h.habitId !== habit.habitId);
       this.habitService.showSuccessMessage('Habit has been marked completed!');
       console.log('Habit marked as completed.')
+      this.ngOnInit();
     })
   }
 
 
-  editHabit(habit: any) {
-    alert(`Edit Habit: ${habit.title}`);
-  }
-
-
   deleteHabit(habit: any) {
-    this.habitService.deleteHabit(habit._id!).subscribe(() => {
-      this.habits = this.habits.filter(h => h._id !== habit._id);
+    this.habitService.deleteHabit(habit).subscribe(() => {
+      this.habits = this.habits.filter(h => h.habitId !== habit.habitId);
       this.habitService.showErrorMessage('Habit has been deleted successfully!');
     })
   }

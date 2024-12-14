@@ -17,16 +17,28 @@ export class HabitService {
     return this.http.get<Habit[]>(`${this.apiUrl}/${userId}`);
   }
 
+  getHabitById(id: string): Observable<Habit> {
+    return this.http.get<Habit>(`${this.apiUrl}/edit/${id}`);
+  }
+
+
   addHabit(habit: any) {
     return this.http.post(this.apiUrl, habit);
   }
 
   completeHabit(habit: any) {
-    return this.http.put(`${this.apiUrl}/${habit._id}`, habit);
+    const updatedHabit = {
+      status: 'complete'
+    }
+    return this.http.put(`${this.apiUrl}/${habit.habitId}`, updatedHabit);
+  }
+
+  updateHabit(id: string, habit: Habit) {
+    return this.http.put(`${this.apiUrl}/edit/${id}`, habit);
   }
 
   deleteHabit(habit: any) {
-    return this.http.delete(`${this.apiUrl}/${habit.title}`);
+    return this.http.delete(`${this.apiUrl}/${habit.habitId}`);
   }
 
   showSuccessMessage(msg: string) {

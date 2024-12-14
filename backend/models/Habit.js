@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 
 const HabitSchema = new mongoose.Schema({
-  _id: {type: String},
-  userId: { type: String, required: true },
+  userId: {type: String, required: true },
+  habitId: { type: String },
   title: { type: String, required: true },
-  description: String,
+  description: { type: String, required: true },
   frequency: { type: String, required: true },
   //'in-progress' | 'completed' | 'overdue'\\
-  status: { type: String, required: true },
+  status: { type: String },
   completedDates: [Date],
 });
 

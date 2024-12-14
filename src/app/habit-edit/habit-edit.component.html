@@ -1,0 +1,39 @@
+<div class="container mt-4">
+  <h2>Edit Habit</h2>
+
+  <form (ngSubmit)="saveChanges()">
+    <div class="form-group">
+      <label for="title" class="visually-hidden">Title</label>
+      <input type="text" id="title" [(ngModel)]="habit.title" placeholder="Habit Title" name="title" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+      <label for="description" class="visually-hidden">Description</label>
+      <input type="text" id="description" [(ngModel)]="habit.description" class="form-control" placeholder="Habit Description" name="description" required />
+    </div>
+
+    <div class="form-group">
+      <label for="frequency" class="visually-hidden">Frequency</label>
+      <select name="frequency" id="frequency" [(ngModel)]="habit.frequency" class="form-select" required>
+        <option value="Daily">Daily</option>
+        <option value="MF">Monday-Friday</option>
+        <option value="Weekends">Weekends</option>
+        <option value="Weekly">Weekly</option>
+        <option value="BiWeekly">Bi-Weekly</option>
+        <option value="Monthly">Monthly</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="status" class="visually-hidden">Status</label>
+      <select name="status" id="status" [(ngModel)]="habit.status" class="form-select" required>
+        <option selected>Select a Status</option>
+        <option value="in-progress">In-Progress</option>
+        <option value="completed">Completed</option>
+        <option value="overdue">Overdue</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+  </form>
+</div>

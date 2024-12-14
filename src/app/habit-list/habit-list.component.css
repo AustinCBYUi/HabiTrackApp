@@ -21,13 +21,13 @@ li {
 }
 
 .in-progress {
-  background-color: darkkhaki;
+  background-color: #ddd399;
 }
 
 .completed {
-  background-color: forestgreen;
+  background-color: #5ba35b;
 }
 
 .overdue {
-  background-color: darkred;
+  background-color: #b86c6c;
 }

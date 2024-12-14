@@ -5,6 +5,7 @@ import {NgIf} from '@angular/common';
 
 export interface Habit {
   userId: string;
+  habitId: string;
   title: string;
   description: string;
   frequency: string;
@@ -24,6 +25,7 @@ export interface Habit {
 export class HabitFormComponent {
   habit: Habit = {
     userId: '',
+    habitId: '',
     title: '',
     description: '',
     frequency: 'Select a Frequency',
@@ -36,6 +38,7 @@ export class HabitFormComponent {
   constructor(private habitService: HabitService) {
     this.habit = {
       userId: '0',
+      habitId: '',
       title: this.habit.title,
       description: this.habit.description,
       frequency: this.habit.frequency,
@@ -44,13 +47,16 @@ export class HabitFormComponent {
   }
 
   addHabit() {
-    this.habitService.addHabit(this.habit).subscribe((response) => {
+    this.habit.habitId = Math.random().toString(36).substr(2, 10);
+    this.habitService.addHabit(this.habit).subscribe(
+      (response) => {
       this.successMessage = 'Habit added successfully!';
       this.errorMessage = null;
       console.log('Habit added:', response)
     }, (error) => {
       this.errorMessage = 'Failed to add habit..';
       this.successMessage = null;
+      console.error('Error adding habit:', error);
     })
   }
 }
