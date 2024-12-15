@@ -55,7 +55,7 @@ const getHabitStatus = (habit) => {
       return 'in-progress';
     }
 
-    // If the lastCompletedDate is set but it is not overdue yet, it should
+    // If the lastCompletedDate is set, but it is not overdue yet, it should
     // still be set to in-progress.
     return 'in-progress';
 
