@@ -8,6 +8,7 @@ const HabitSchema = new mongoose.Schema({
   frequency: { type: String, required: true },
   //'in-progress' | 'completed' | 'overdue'\\
   status: { type: String },
+  startDate: { type: String, required: true},
   completedDates: [Date],
 });
 

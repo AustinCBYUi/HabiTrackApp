@@ -1,6 +1,16 @@
-# HabitTracker
+# HabiTrak
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.1.
+
+HabiTrak is a 'SPA' built as a final project for the Web Full-Stack Development class (WDD430), by Austin C.
+Habit Tracking is an extremely important process for developing atomic habits. Keeping track of multiple habits one
+is trying to develop can be painstaking and result in failure! I wanted to design a system that offered a simple solution
+to people trying to better themselves.
+- - -
+- - -
+
+# ** Developer Section **
+
 
 ## Development server
 

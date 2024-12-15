@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HabitService } from '../habit.service';
-import {NgIf} from '@angular/common';
+import { NgIf } from '@angular/common';
 
 export interface Habit {
   userId: string;
@@ -10,6 +10,7 @@ export interface Habit {
   description: string;
   frequency: string;
   status: string;
+  startDate: string;
 }
 
 @Component({
@@ -23,13 +24,16 @@ export interface Habit {
   styleUrl: './habit-form.component.css'
 })
 export class HabitFormComponent {
+  date = new Date();
+  getToday = this.date.getDate().toString();
   habit: Habit = {
     userId: '',
     habitId: '',
     title: '',
     description: '',
     frequency: 'Select a Frequency',
-    status: ''
+    status: '',
+    startDate: this.getToday
   };
 
   successMessage: string | null = null;
@@ -42,7 +46,8 @@ export class HabitFormComponent {
       title: this.habit.title,
       description: this.habit.description,
       frequency: this.habit.frequency,
-      status: 'in-progress'
+      status: 'in-progress',
+      startDate: ''
     };
   }
 

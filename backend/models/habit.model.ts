@@ -5,5 +5,6 @@ export interface Habit {
   description?: string;
   frequency: string;
   status: string;
+  startDate: string;
   completedDates?: Date[];
 }

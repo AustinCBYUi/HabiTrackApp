@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import { HabitService } from '../habit.service'
 import { Habit } from '../../../backend/models/habit.model';
 import {FormsModule} from '@angular/forms';
@@ -7,14 +7,15 @@ import {FormsModule} from '@angular/forms';
 @Component({
   selector: 'app-habit-edit',
   imports: [
-    FormsModule
+    FormsModule,
+    RouterLink
   ],
   standalone: true,
   templateUrl: './habit-edit.component.html',
   styleUrl: './habit-edit.component.css'
 })
 export class HabitEditComponent implements OnInit {
-  habit: Habit = { userId: '', habitId: '', title: '', description: '', frequency: '', status: 'Select a Status' };
+  habit: Habit = { userId: '', habitId: '', title: '', description: '', frequency: '', status: 'Select a Status', startDate: '' };
   successMessage: string | null = null;
   errorMessage: string | null = null;
 
@@ -44,7 +45,7 @@ export class HabitEditComponent implements OnInit {
   saveChanges() {
     if (this.habit.title && this.habit.description) {
       this.habitService.updateHabit(this.habit.habitId, this.habit).subscribe(
-        (response) => {
+        () => {
           this.habitService.showSuccessMessage('Habit updated successfully.');
           this.router.navigate(['/habits']).then();
       },

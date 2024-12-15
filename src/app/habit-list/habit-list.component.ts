@@ -19,13 +19,16 @@ export class HabitListComponent implements OnInit {
   habits: Habit[] = [];
   successMessage: string | null = null;
   errorMessage: string | null = null;
+  frequencyOrder = ['Daily', 'Monday-Friday', 'Weekly', 'Bi-Weekly', 'Monthly'];
 
 
   constructor(private habitService: HabitService) { }
 
   ngOnInit() {
     this.habitService.getHabits('0').subscribe(data => {
-      this.habits = data;
+      this.habits = data.sort(
+        (a, b) => this.frequencyOrder.indexOf(a.frequency) - this.frequencyOrder.indexOf(b.frequency)
+      );
       this.successMessage = this.habitService.successMessage;
       this.errorMessage = this.habitService.errorMessage;
     })
@@ -48,4 +51,5 @@ export class HabitListComponent implements OnInit {
       this.habitService.showErrorMessage('Habit has been deleted successfully!');
     })
   }
+
 }

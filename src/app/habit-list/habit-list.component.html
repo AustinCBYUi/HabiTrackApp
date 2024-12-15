@@ -7,15 +7,21 @@
   {{ errorMessage }}
 </div>
 
-<ul>
-  <li *ngFor="let habit of habits" class="{{ habit.status }} pt-2 shadow rounded">
-    <h3>{{ habit.title }}</h3>
-    <p>{{ habit.description }}</p>
-    <p><strong>Frequency:</strong> {{ habit.frequency }}</p>
-    <div class="habit-actions">
-      <button class="btn btn-success btn-sm me-2" (click)="markComplete(habit)">Complete</button>
-      <button [routerLink]="['/habits/edit', habit.habitId]" class="btn btn-warning btn-sm me-2">Edit</button>
-      <button class="btn btn-danger btn-sm" (click)="deleteHabit(habit)">Delete</button>
-    </div>
-  </li>
-</ul>
+<div *ngFor="let frequency of frequencyOrder">
+  <h3>{{ frequency }}</h3>
+  <ul>
+    <li *ngFor="let habit of habits" [hidden]="habit.frequency !== frequency" class="{{ habit.status }} pt-2 shadow rounded">
+      <h3>{{ habit.title }}</h3>
+      <p>{{ habit.description }}</p>
+      <p><strong>Frequency:</strong> {{ habit.frequency }}</p>
+      <p><b>Start Date:</b> {{ habit.startDate }}</p>
+<!--      TODO: Work on Last completed.-->
+<!--      <p><b>Last Completed:</b> {{ habit.lastComplete }}</p>-->
+      <div class="habit-actions">
+        <button class="btn btn-success btn-sm me-2" (click)="markComplete(habit)">Complete</button>
+        <button [routerLink]="['/habits/edit', habit.habitId]" class="btn btn-warning btn-sm me-2">Edit</button>
+        <button class="btn btn-danger btn-sm" (click)="deleteHabit(habit)">Delete</button>
+      </div>
+    </li>
+  </ul>
+</div>

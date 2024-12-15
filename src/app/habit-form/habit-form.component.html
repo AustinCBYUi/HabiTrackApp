@@ -28,12 +28,16 @@
       <select id="frequency" [(ngModel)]="habit.frequency" name="frequency" class="form-select" required>
         <option selected>Select a Frequency</option>
         <option value="Daily">Daily</option>
-        <option value="MF">Monday-Friday</option>
-        <option value="Weekends">Weekends</option>
+        <option value="Monday-Friday">Monday-Friday</option>
         <option value="Weekly">Weekly</option>
         <option value="BiWeekly">Bi-Weekly</option>
         <option value="Monthly">Monthly</option>
       </select>
+    </div>
+
+    <div class="col-auto">
+      <label for="startDate" class="visually-hidden">Start Date</label>
+      <input type="date" [(ngModel)]="habit.startDate" id="startDate" name="startDate" class="form-select" required />
     </div>
 
     <!-- Submit Button -->

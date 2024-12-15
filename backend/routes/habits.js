@@ -2,12 +2,19 @@ const express = require('express');
 const Habit = require('../models/Habit');
 const router = express.Router();
 
+const frequencyOrder = ['Daily', 'Monday-Friday', 'Weekly', 'Bi-Weekly', 'Monthly'];
 
 //Get all habits for a user.
 router.get('/:userId', async (req, res) => {
   try {
     const habits = await Habit.find({ userId: req.params.userId });
-    res.json(habits);
+
+    //Sort habits based on frequencyOrder
+    habits.sort((a, b) => {
+      return frequencyOrder.indexOf(a.frequency) - frequencyOrder.indexOf(b.frequency);
+    });
+
+    res.status(200).send(habits);
   } catch (err) {
     res.status(404).json({ error: 'Error fetching habits..' })
   }
@@ -16,6 +23,9 @@ router.get('/:userId', async (req, res) => {
 //POST
 router.post('/', async (req, res) => {
   try {
+    const getUserDate = new Date(req.body.startDate);
+    //Update the request body with the formatted date
+    req.body.startDate = getUserDate.toISOString().split('T')[0];
     const habit = new Habit(req.body);
     await habit.save();
     res.status(201).send(habit)
@@ -67,6 +77,7 @@ router.put('/:id', async (req, res) => {
 //PUT
 router.put('/edit/:id', async (req, res) => {
   try {
+    const getUserDate = new Date(req.body.startDate);
     const updatedHabit = await Habit.updateOne(
       { habitId: req.params.id },
       {
@@ -74,7 +85,9 @@ router.put('/edit/:id', async (req, res) => {
         title: req.body.title,
         description: req.body.description,
         frequency: req.body.frequency,
-        status: req.body.status, },
+        status: req.body.status,
+        startDate: req.body.startDate = getUserDate.toISOString().split('T')[0]
+      },
       { new: true }
     );
     res.status(200).json(updatedHabit);
