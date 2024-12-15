@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HabitService } from '../habit.service';
 import {Habit} from '../../../backend/models/habit.model';
-import {NgForOf, NgIf} from '@angular/common';
+import {NgClass, NgForOf, NgIf} from '@angular/common';
 import {RouterLink} from '@angular/router';
 
 @Component({
@@ -9,7 +9,8 @@ import {RouterLink} from '@angular/router';
   imports: [
     NgForOf,
     NgIf,
-    RouterLink
+    RouterLink,
+    NgClass
   ],
   standalone: true,
   templateUrl: './habit-list.component.html',

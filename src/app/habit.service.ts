@@ -27,8 +27,16 @@ export class HabitService {
   }
 
   completeHabit(habit: any) {
+    const newDate = new Date();
+    const formattedDate = newDate.toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    });
     const updatedHabit = {
-      status: 'complete'
+      status: 'complete',
+      //Gets today.
+      completedDate: formattedDate
     }
     return this.http.put(`${this.apiUrl}/${habit.habitId}`, updatedHabit);
   }

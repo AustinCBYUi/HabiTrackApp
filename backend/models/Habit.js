@@ -9,7 +9,7 @@ const HabitSchema = new mongoose.Schema({
   //'in-progress' | 'completed' | 'overdue'\\
   status: { type: String },
   startDate: { type: String, required: true},
-  completedDates: [Date],
+  lastCompletedDate: { type: String },
 });
 
 module.exports = mongoose.model('Habit', HabitSchema);

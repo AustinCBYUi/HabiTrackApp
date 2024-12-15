@@ -6,5 +6,5 @@ export interface Habit {
   frequency: string;
   status: string;
   startDate: string;
-  completedDates?: Date[];
+  lastCompletedDate?: string;
 }

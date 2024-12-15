@@ -31,3 +31,11 @@ li {
 .overdue {
   background-color: #b86c6c;
 }
+
+.bg-gray {
+  background-color: #ececec;
+}
+
+.bg-darkgray {
+  background-color: #dfdfdf;
+}

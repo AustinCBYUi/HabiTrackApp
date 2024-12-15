@@ -11,6 +11,7 @@ export interface Habit {
   frequency: string;
   status: string;
   startDate: string;
+  lastCompletedDate?: string;
 }
 
 @Component({
@@ -33,13 +34,20 @@ export class HabitFormComponent {
     description: '',
     frequency: 'Select a Frequency',
     status: '',
-    startDate: this.getToday
+    startDate: this.getToday,
+    lastCompletedDate: ''
   };
 
   successMessage: string | null = null;
   errorMessage: string | null = null;
 
   constructor(private habitService: HabitService) {
+    const date = new Date();
+    const formattedDate = date.toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    })
     this.habit = {
       userId: '0',
       habitId: '',
@@ -47,7 +55,8 @@ export class HabitFormComponent {
       description: this.habit.description,
       frequency: this.habit.frequency,
       status: 'in-progress',
-      startDate: ''
+      startDate: '',
+      lastCompletedDate: ''
     };
   }
 

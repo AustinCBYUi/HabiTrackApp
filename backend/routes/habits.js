@@ -1,20 +1,34 @@
 const express = require('express');
 const Habit = require('../models/Habit');
 const router = express.Router();
+const { getHabitStatus } = require('../utils/habitUtils.js');
 
 const frequencyOrder = ['Daily', 'Monday-Friday', 'Weekly', 'Bi-Weekly', 'Monthly'];
+
+// ------- /habits route ------- \\
 
 //Get all habits for a user.
 router.get('/:userId', async (req, res) => {
   try {
     const habits = await Habit.find({ userId: req.params.userId });
+    // console.log('fetched  habits:', habits);
+    //
+    const enrichedHabits = habits.map(habit => {
+      console.log('from inside the pointer', habit)
+      let enrichedHabit = { ...habit.toObject() };
+      console.log('Enriched Habit conversion', enrichedHabit)
+      enrichedHabit.status = (getHabitStatus(enrichedHabit));
+      console.log('Status of enriched habit:', enrichedHabit.status);
+      return enrichedHabit;
+    })
+    console.log('Enriched Habits', enrichedHabits)
 
     //Sort habits based on frequencyOrder
-    habits.sort((a, b) => {
+    enrichedHabits.sort((a, b) => {
       return frequencyOrder.indexOf(a.frequency) - frequencyOrder.indexOf(b.frequency);
     });
 
-    res.status(200).send(habits);
+    res.status(200).send(enrichedHabits);
   } catch (err) {
     res.status(404).json({ error: 'Error fetching habits..' })
   }
@@ -25,7 +39,11 @@ router.post('/', async (req, res) => {
   try {
     const getUserDate = new Date(req.body.startDate);
     //Update the request body with the formatted date
-    req.body.startDate = getUserDate.toISOString().split('T')[0];
+    req.body.startDate = getUserDate.toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    });
     const habit = new Habit(req.body);
     await habit.save();
     res.status(201).send(habit)
@@ -47,6 +65,30 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+//PUT Update / mark complete.
+router.put('/:id', async (req, res) => {
+  try {
+    const userCompletedDate = new Date();
+    const updatedHabit = await Habit.updateOne(
+      { habitId: req.params.id },
+      {
+        status: 'completed',
+        lastCompletedDate: userCompletedDate.toLocaleDateString('en-US', {
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric'
+        })
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedHabit);
+  } catch (err) {
+    res.status(500).send({ error: 'Error updating Habit' });
+  }
+});
+
+// ------- /habits/edit route ------- \\
+
 router.get('/edit/:id', async (req, res) => {
   try {
     const habit = await Habit.findOne({habitId: req.params.id});
@@ -60,24 +102,10 @@ router.get('/edit/:id', async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
-  try {
-    const updatedHabit = await Habit.updateOne(
-      { habitId: req.params.id },
-      {
-        status: 'completed', },
-      { new: true }
-    );
-    res.status(200).json(updatedHabit);
-  } catch (err) {
-    res.status(500).send({ error: 'Error updating Habit' });
-  }
-});
-
 //PUT
 router.put('/edit/:id', async (req, res) => {
   try {
-    const getUserDate = new Date(req.body.startDate);
+    const userStartDate = new Date(req.body.startDate);
     const updatedHabit = await Habit.updateOne(
       { habitId: req.params.id },
       {
@@ -86,7 +114,11 @@ router.put('/edit/:id', async (req, res) => {
         description: req.body.description,
         frequency: req.body.frequency,
         status: req.body.status,
-        startDate: req.body.startDate = getUserDate.toISOString().split('T')[0]
+        startDate: req.body.startDate = userStartDate.toLocaleDateString('en-US', {
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric'
+        }),
       },
       { new: true }
     );
