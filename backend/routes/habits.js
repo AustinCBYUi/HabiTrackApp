@@ -11,17 +11,12 @@ const frequencyOrder = ['Daily', 'Monday-Friday', 'Weekly', 'Bi-Weekly', 'Monthl
 router.get('/:userId', async (req, res) => {
   try {
     const habits = await Habit.find({ userId: req.params.userId });
-    // console.log('fetched  habits:', habits);
-    //
+
     const enrichedHabits = habits.map(habit => {
-      console.log('from inside the pointer', habit)
       let enrichedHabit = { ...habit.toObject() };
-      console.log('Enriched Habit conversion', enrichedHabit)
       enrichedHabit.status = (getHabitStatus(enrichedHabit));
-      console.log('Status of enriched habit:', enrichedHabit.status);
       return enrichedHabit;
     })
-    console.log('Enriched Habits', enrichedHabits)
 
     //Sort habits based on frequencyOrder
     enrichedHabits.sort((a, b) => {
@@ -37,7 +32,7 @@ router.get('/:userId', async (req, res) => {
 //POST
 router.post('/', async (req, res) => {
   try {
-    const getUserDate = new Date(req.body.startDate);
+    const getUserDate = new Date(req.body.startDate + 'T00:00:00');
     //Update the request body with the formatted date
     req.body.startDate = getUserDate.toLocaleDateString('en-US', {
       month: 'long',
@@ -105,7 +100,7 @@ router.get('/edit/:id', async (req, res) => {
 //PUT
 router.put('/edit/:id', async (req, res) => {
   try {
-    const userStartDate = new Date(req.body.startDate);
+    const userStartDate = new Date(req.body.startDate + 'T00:00:00');
     const updatedHabit = await Habit.updateOne(
       { habitId: req.params.id },
       {

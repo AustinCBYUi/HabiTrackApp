@@ -25,8 +25,6 @@ export interface Habit {
   styleUrl: './habit-form.component.css'
 })
 export class HabitFormComponent {
-  date = new Date();
-  getToday = this.date.getDate().toString();
   habit: Habit = {
     userId: '',
     habitId: '',
@@ -34,7 +32,7 @@ export class HabitFormComponent {
     description: '',
     frequency: 'Select a Frequency',
     status: '',
-    startDate: this.getToday,
+    startDate: '',
     lastCompletedDate: ''
   };
 
